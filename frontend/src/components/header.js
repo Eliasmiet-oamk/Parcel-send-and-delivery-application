@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { useLogin } from "../Context/LoginProvider";
-import "./header.css";
+import "./css/header.css";
 
 const Header = () => {
   const { profile, isLoggedIn } = useLogin();
@@ -13,13 +13,34 @@ const Header = () => {
             <Link to="/">Home</Link>
           </li>
           <li className={"navlist"}>
-          <Link to="/"> Role: {profile.roles} </Link>
+            <Link to="/"> Role: {profile.roles} </Link>
           </li>
           <li className={"navlist"}>
-            {isLoggedIn ? 
-              <Link to="/profile">Hi! {profile.username}</Link>
-             : [<ul className={"navContainer"}><li className={"navlist"}><Link to="/login">Login</Link></li>, <li className={"navlist"}><Link to="/register">Register</Link></li></ul>]
-            }
+            {isLoggedIn
+              ? [
+                  <ul className={"navContainer"} key={"login"}>
+                    {" "}
+                    <li className={"navlist"}>
+                      {" "}
+                      <Link to="/profile">Hi! {profile.username}</Link>
+                    </li>
+                    ,
+                    <li className={"navlist"}>
+                      <Link to="/send"> Send </Link>
+                    </li>{" "}
+                  </ul>,
+                ]
+              : [
+                  <ul className={"navContainer"} key={"logout"}>
+                    <li className={"navlist"}>
+                      <Link to="/login">Login</Link>
+                    </li>
+                    ,{" "}
+                    <li className={"navlist"}>
+                      <Link to="/register">Register</Link>
+                    </li>
+                  </ul>,
+                ]}
           </li>
         </ul>
       </nav>

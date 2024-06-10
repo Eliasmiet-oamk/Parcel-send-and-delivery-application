@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import usersRoute from "./routes/usersRoute.js";
+import parcelRoute from "./routes/parcelRoute.js";
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,7 @@ db.on("error", (error) => console.error(error));
 db.on("open", () => console.log("Connected"));
 
 app.use("/api/users", usersRoute);
+app.use("/api/parcel", parcelRoute);
 
 app.listen(8000, function () {
   console.log("Server running");

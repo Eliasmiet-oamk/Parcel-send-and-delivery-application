@@ -1,91 +1,85 @@
 import React, { useState } from "react";
 import "./css/login.css";
 
-
 const Register = (props) => {
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [verifyPassword, setVerifyPassword] = useState("");
-    const [roles, setRole] = useState("")
-    const [usernameError, setUsernameError] = useState("");
-    const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
-  
-    const onButtonClick = () => {
-      // Set initial error values to empty
-      setEmailError("");
-      setUsernameError("");
-      setPasswordError("");
-  
-      // Check if the user has entered both fields correctly
-      if ("" === email) {
-        setEmailError("Please enter your email");
-        return;
-      }
-  
-      if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-        setEmailError("Please enter a valid email");
-        return;
-      }
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [verifyPassword, setVerifyPassword] = useState("");
+  const [roles, setRole] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
-      if ("" === username) {
-        setUsernameError("Please enter your Username");
-        return;
-      }
+  const onButtonClick = () => {
+    // Set initial error values to empty
+    setEmailError("");
+    setUsernameError("");
+    setPasswordError("");
 
-      if (username.length < 2) {
-        setUsernameError("The Username must be 2 characters or longer");
-        return;
-      }
-  
-      if ("" === password) {
-        setPasswordError("Please enter a password");
-        return;
-      }
-  
-      if (password.length < 2) {
-        setPasswordError("The password must be 8 characters or longer");
-        return;
-      }
+    // Check if the user has entered both fields correctly
+    if ("" === email) {
+      setEmailError("Please enter your email");
+      return;
+    }
 
-      if (password != verifyPassword)  {
-        setPasswordError("The Password has to match");
-        return;
-      }
-  
-      register();
-    };
-  
-    const register = () => {
-        const payload = {username,email,password,roles};
-        fetch(`http://localhost:8000/api/users/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                
-                
-            },
-            body: JSON.stringify(payload),
-        }).then(async res => { 
-            try {
-                const jsonRes = await res.json();
-        
-                if (res.status !== 201) {
-                    console.log("error")
-                    
-                } else {
-                   console.log(jsonRes)
-                    ;
-                }
-            } catch (err) {
-                console.log(err);
-            };
-        })
-        
+    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+      setEmailError("Please enter a valid email");
+      return;
+    }
+
+    if ("" === username) {
+      setUsernameError("Please enter your Username");
+      return;
+    }
+
+    if (username.length < 2) {
+      setUsernameError("The Username must be 2 characters or longer");
+      return;
+    }
+
+    if ("" === password) {
+      setPasswordError("Please enter a password");
+      return;
+    }
+
+    if (password.length < 2) {
+      setPasswordError("The password must be 8 characters or longer");
+      return;
+    }
+
+    if (password != verifyPassword) {
+      setPasswordError("The Password has to match");
+      return;
+    }
+
+    register();
+  };
+
+  const register = () => {
+    const payload = { username, email, password, roles };
+    fetch(`http://localhost:8000/api/users/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    }).then(async (res) => {
+      try {
+        const jsonRes = await res.json();
+
+        if (res.status !== 201) {
+          console.log("error");
+        } else {
+          console.log(jsonRes);
         }
-    return (
-        <div className={"mainContainer"}>
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  };
+  return (
+    <div className={"mainContainer"}>
       <div className={"titleContainer"}>
         <div> Register </div>
       </div>
@@ -131,11 +125,23 @@ const Register = (props) => {
       </div>
       <br />
       <div className={"inputContainer"}>
-      <input type="radio" id="roleUser" name="fav_language" value="user"  onChange={(ev) => setRole(ev.target.value) }/>
-      <label for="roleUser">User</label>
-      <br />
-      <input type="radio" id="roleDriver" name="fav_language" value="driver" onChange={(ev) => setRole(ev.target.value) }/>
-      <label for="roleDriver">Driver</label>
+        <input
+          type="radio"
+          id="roleUser"
+          name="fav_language"
+          value="user"
+          onChange={(ev) => setRole(ev.target.value)}
+        />
+        <label for="roleUser">User</label>
+        <br />
+        <input
+          type="radio"
+          id="roleDriver"
+          name="fav_language"
+          value="driver"
+          onChange={(ev) => setRole(ev.target.value)}
+        />
+        <label for="roleDriver">Driver</label>
       </div>
       <br />
       <div className={"inputContainer"}>
@@ -147,8 +153,7 @@ const Register = (props) => {
         />
       </div>
     </div>
-    );
-  }
-  
-  export default Register;
-  
+  );
+};
+
+export default Register;

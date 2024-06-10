@@ -18,7 +18,7 @@ applyPassportStrategyjwt(passport);
 usersRoute.post("/register", (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
-  const roles = req.body.roles
+  const roles = req.body.roles;
 
   const salt = bcrypt.genSaltSync(6);
   const hashedPassword = bcrypt.hashSync(req.body.password, salt);
@@ -28,7 +28,7 @@ usersRoute.post("/register", (req, res) => {
     username,
     email,
     password,
-    roles
+    roles,
   });
   res.status(201);
 
@@ -45,7 +45,7 @@ usersRoute.post(
       id: req.user.id,
       email: req.user.email,
       username: req.user.username,
-      roles: req.user.roles
+      roles: req.user.roles,
     };
 
     const payload = {
@@ -63,14 +63,6 @@ usersRoute.post(
 );
 
 usersRoute.get(
-  "/protected",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    res.json({ message: "You are authorized to access this resource" });
-  },
-);
-
-usersRoute.get(
   "/haveToken",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
@@ -78,22 +70,23 @@ usersRoute.get(
       id: req.user.id,
       email: req.user.email,
       username: req.user.username,
-      roles: req.user.roles
+      roles: req.user.roles,
     };
     return res.json({ body });
   },
 );
 
-usersRoute.delete('/deleteUser/:id',passport.authenticate('jwt', { session: false }),( async  (req, res) => {
-  const { id } = req.params;
-  const user = await User.findByIdAndDelete(id);
-  if (!user) {
-    return res.status(400).json("User not found");
-  }
-  res.status(200).json("User deleted successfully");
- 
-})
+usersRoute.delete(
+  "/deleteUser/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(400).json("User not found");
+    }
+    res.status(200).json("User deleted successfully");
+  },
 );
-
 
 export default usersRoute;

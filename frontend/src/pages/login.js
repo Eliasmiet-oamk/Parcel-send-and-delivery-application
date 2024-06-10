@@ -3,13 +3,13 @@ import { Buffer } from "buffer";
 import "./css/login.css";
 import { useLogin } from "../Context/LoginProvider";
 
-const Login = (props) => {
+const Login = () => {
   const { onLoginReceiveTOKEN, setProfile, setIsLoggedIn } = useLogin();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const { profile, isLoggedIn } = useLogin();
+  const { isLoggedIn } = useLogin();
 
   const onButtonClick = () => {
     // Set initial error values to empty

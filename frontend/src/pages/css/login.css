@@ -61,3 +61,8 @@
     border: 1px solid grey;
     padding-left: 8px;
   }
+
+  .side-by-side {
+    display: flex;
+    flex-direction: row;
+  }
