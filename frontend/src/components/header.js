@@ -16,9 +16,9 @@ const Header = () => {
             <Link to="/"> Role: {profile.roles} </Link>
           </li>
           <li className={"navlist"}>
-            {isLoggedIn
+            {isLoggedIn && profile.roles === "user"
               ? [
-                  <ul className={"navContainer"} key={"login"}>
+                  <ul className={"navContainer"} key={"login_user"}>
                     {" "}
                     <li className={"navlist"}>
                       {" "}
@@ -27,9 +27,31 @@ const Header = () => {
                     ,
                     <li className={"navlist"}>
                       <Link to="/send"> Send </Link>
+                    </li>
+                    ,
+                    <li className={"navlist"}>
+                      <Link to="/parcelsim"> parcelboxsimulator </Link>
+                    </li>
+                  </ul>,
+                ]
+              : null}
+            {isLoggedIn && profile.roles === "driver"
+              ? [
+                  <ul className={"navContainer"} key={"login_driver"}>
+                    {" "}
+                    <li className={"navlist"}>
+                      {" "}
+                      <Link to="/profile">Hi! {profile.username}</Link>
+                    </li>
+                    ,
+                    <li className={"navlist"}>
+                      <Link to="/pickup"> Pickup </Link>
                     </li>{" "}
                   </ul>,
                 ]
+              : null}
+            {isLoggedIn
+              ? null
               : [
                   <ul className={"navContainer"} key={"logout"}>
                     <li className={"navlist"}>

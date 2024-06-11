@@ -4,10 +4,10 @@ import { useLogin } from "../Context/LoginProvider";
 
 function Home() {
 
-  const { isLoggedIn } = useLogin();
+  const { profile, isLoggedIn } = useLogin();
   return (
     <div>
-      {isLoggedIn ? <Notification />: "not logged in"}
+      {isLoggedIn && profile.roles === "user" ? <Notification />: null}
     </div>
   );
 }

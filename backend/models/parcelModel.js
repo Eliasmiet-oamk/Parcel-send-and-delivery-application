@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const parcelSchema = new mongoose.Schema(
   {
     user_id: { type: String, required: true },
@@ -13,10 +14,8 @@ const parcelSchema = new mongoose.Schema(
     parcel_width: { type: Number, required: true },
     parcel_depth: { type: Number, required: true },
     parcel_weight: { type: Number, required: true },
-    ready: { type: Date, select: false },
-    picked: { type: Date, select: false },
     parcel_status: { type: String, required: true },
-    code: { type: String, required: true },
+    code: { type: String, required: false },
     drop_off_location: {
       type: String,
       enum: [
@@ -34,6 +33,8 @@ const parcelSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+
 
 const Parcel = mongoose.model("Parcel", parcelSchema);
 

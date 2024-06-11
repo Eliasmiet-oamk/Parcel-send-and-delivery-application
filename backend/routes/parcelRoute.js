@@ -10,14 +10,26 @@ const parcelRoute = express.Router();
 applyPassportStrategybasic(passport);
 applyPassportStrategyjwt(passport);
 
-function getNumber() {
-  let number = Math.floor(Math.random() * 15);
-  return number;
+async function getNumber() {
+  let number = Math.floor(Math.random() * 14) + 1;
+  const parcel = await Parcel.find({ parcel_locker: number });
+  if (parcel){
+    getNumber()
+  } else{
+    return number;
+  }
 }
 
-function getCode() {
-  let number = Math.floor(Math.random() * 900000) + 100000;
-  return number;
+function getCode(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
 }
 
 parcelRoute.post(
@@ -28,7 +40,7 @@ parcelRoute.post(
     const user_id = req.body.user_id;
     const drop_off_location = req.body.drop_off_location;
     const parcel_locker = getNumber();
-    const code = getCode();
+    const code = getCode(4);
     // recipient
     const recipient_name = req.body.recipient_name;
     const recipient_address = req.body.recipient_address;
@@ -102,5 +114,64 @@ parcelRoute.post(
     }
   },
 );
+
+parcelRoute.post(
+    "/openparcelbox",
+    async (req, res) => {
+    
+    const drop_off_location = req.body.drop_off_location
+    const parcel_locker = req.body.parcel_locker
+    const code = req.body.code
+    
+    const parcel = await Parcel.findOne({drop_off_location: drop_off_location, parcel_locker : parcel_locker, code: code  });
+    if (!parcel){
+      res.status(404).send({ message: 'Parcel Not Found' });
+       return;
+    }
+    if (parcel.parcel_status === "ready") {
+        res.send({message: `DOOR ${parcel_locker} OPEN FOR PICKUP`, parcel: parcel});
+        return;
+    } 
+    else if (parcel.parcel_status === "sent") {
+        res.send({message: `DOOR ${parcel_locker} OPEN FOR DELIVERY`, parcel: parcel});
+        return;
+    } else {
+        res.status(404).send({ message: 'Parcel Not Found' });
+        return;
+    }  
+ }     
+)
+
+parcelRoute.put(
+    "/updatestatus",
+    async (req, res) => {
+    const drop_off_location = req.body.drop_off_location
+    const parcel_locker = req.body.parcel_locker
+    const code = req.body.code
+    
+    const parcel = await Parcel.findOne({drop_off_location: drop_off_location, parcel_locker : parcel_locker, code: code  });
+    if (!parcel){
+      res.status(404).send({ message: 'Parcel Not Found' });
+      return;
+    }
+    if (parcel.parcel_status === "ready" ) {
+        await parcel.updateOne({ $unset: { code: 1}, parcel_status : 'picked'  }).then(() =>  res.send({message: `Parcel picked`}))
+        .catch(err => console.error('Error deleting code field:', err));
+        return;
+    } 
+    if (parcel.parcel_status === "sent") {
+        parcel.parcel_status = "ready"
+        parcel.code = getCode(4);
+        await parcel.save();
+        res.send({message: `Parcel delivered`});
+        return;
+    }
+    else {
+        res.status(404).send({ message: 'Parcel Not Found' });
+        return;
+    }
+      
+ }     
+)
 
 export default parcelRoute;

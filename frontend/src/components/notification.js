@@ -3,7 +3,7 @@ import { useLogin } from "../Context/LoginProvider";
 import { actionCreators, initialState, reducer } from "./reducer";
 import Parcel from "./parcel";
 
-const Notification = (props) => {
+const Notification = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { profile, token } = useLogin();
   const { result, loading, error } = state;
@@ -44,7 +44,7 @@ const Notification = (props) => {
     return <div>error</div>;
   }
 
-  const sent_parcels = result.map((result) =>
+  const ready_parcels = result.map((result) =>
     result.parcel_status == "ready" ? (
       <Parcel
         parcel_status={result.parcel_status}
@@ -56,7 +56,7 @@ const Notification = (props) => {
 
   return (
     <div>
-      <div>{sent_parcels}</div>
+      <div>{ready_parcels}</div>
     </div>
   );
 };
