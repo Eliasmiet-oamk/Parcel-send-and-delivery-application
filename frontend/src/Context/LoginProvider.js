@@ -15,7 +15,7 @@ const LoginProvider = ({ children }) => {
     try {
       const value = localStorage.getItem("token");
       if (value !== null) {
-        fetch(`http://localhost:8000/api/users/haveToken`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/users/haveToken`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${value}`,
@@ -23,9 +23,10 @@ const LoginProvider = ({ children }) => {
         }).then(async (res) => {
           try {
             const jsonRes = await res.json();
-            if (res.status !== 200) {
-              console.log("fail");
-            } else {
+            if (res.status === 401) {
+              setIsLoggedIn(false);
+            }  
+            if ( res.status === 200) {
               setIsLoggedIn(true);
               console.log("Login successful");
               setProfile(jsonRes.body);

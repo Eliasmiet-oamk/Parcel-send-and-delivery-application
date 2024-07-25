@@ -19,7 +19,7 @@ const Notification = () => {
       const username = profile.username;
       const payload = { username };
       const response = await fetch(
-        `http://localhost:8000/api/parcel/getParcelbyrecipient`,
+        `${process.env.REACT_APP_BASE_URL}/api/parcel/getParcelbyrecipient`,
         {
           method: "POST",
           headers: {
@@ -48,7 +48,12 @@ const Notification = () => {
     result.parcel_status == "ready" ? (
       <Parcel
         parcel_status={result.parcel_status}
+        sender_name={result.sender_name}
         recipient_name={result.recipient_name}
+        drop_off_location={result.drop_off_location}
+        parcel_locker={result.parcel_locker}
+        codeText={"Locker code: "}
+        code={result.code}
         key={result._id}
       />
     ) : null,
@@ -56,6 +61,7 @@ const Notification = () => {
 
   return (
     <div>
+      <h1>Notifications:</h1>
       <div>{ready_parcels}</div>
     </div>
   );

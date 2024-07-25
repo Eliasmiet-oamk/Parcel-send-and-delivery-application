@@ -1,0 +1,16 @@
+.mainContainer {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+
+  .second{
+    background-color: #F1F3F4;
+    padding: 30px;
+  }
+
+  .second > * {
+    margin: 20px;
+  }

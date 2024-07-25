@@ -14,11 +14,14 @@ const parcelSchema = new mongoose.Schema(
     parcel_width: { type: Number, required: true },
     parcel_depth: { type: Number, required: true },
     parcel_weight: { type: Number, required: true },
+    parcel_picked: {type: String, requred: false},
+    parcel_ready: {type: String, requred:false},
     parcel_status: { type: String, required: true },
     code: { type: String, required: false },
     drop_off_location: {
       type: String,
       enum: [
+        "On_the_way",
         "Location_1",
         "Location_2",
         "Location_3",

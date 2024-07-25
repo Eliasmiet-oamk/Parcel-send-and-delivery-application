@@ -15,24 +15,6 @@
     justify-content: center;
   }
   
-  .resultContainer,
-  .historyItem {
-    flex-direction: row;
-    display: flex;
-    width: 400px;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .historyContainer {
-    flex-direction: column;
-    display: flex;
-    height: 200px;
-    align-items: center;
-    flex-grow: 5;
-    justify-content: flex-start;
-  }
-  
   .buttonContainer {
     display: flex;
     flex-direction: column;
@@ -55,7 +37,7 @@
   
   .inputBox {
     height: 48px;
-    width: 400px;
+    width: 250px;
     font-size: large;
     border-radius: 8px;
     border: 1px solid grey;
@@ -64,5 +46,14 @@
 
   .side-by-side {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+  }
+
+  .side-by-side > * {
+    margin: 10px;
+  }
+
+  .margin1px{
+    display: flex;
+    flex-direction: column;
   }

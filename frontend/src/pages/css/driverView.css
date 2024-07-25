@@ -1,0 +1,12 @@
+.parcelList{height:200px;  overflow:hidden; overflow-y:scroll;}
+
+.mainContainerp {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100vh;
+  }
+
+.side-by-side {
+    flex-direction: row;
+  }

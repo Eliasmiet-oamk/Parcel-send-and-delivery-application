@@ -20,6 +20,11 @@ usersRoute.post("/register", (req, res) => {
   const email = req.body.email;
   const roles = req.body.roles;
 
+  if (!username && !email && !roles) {
+    res.status(404).send({ message: "Correct infromation not sent" });
+    return;
+  }
+
   const salt = bcrypt.genSaltSync(6);
   const hashedPassword = bcrypt.hashSync(req.body.password, salt);
   const password = hashedPassword;
@@ -81,6 +86,10 @@ usersRoute.delete(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const { id } = req.params;
+    if (!id) {
+      res.status(404).send({ message: "No id found" });
+      return;
+    }
     const user = await User.findByIdAndDelete(id);
     if (!user) {
       return res.status(400).json("User not found");

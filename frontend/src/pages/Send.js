@@ -3,8 +3,7 @@ import { useLogin } from "../Context/LoginProvider";
 import "./css/login.css";
 
 const Send = () => {
-  const { profile, token } = useLogin();
-
+  const { profile,  token } = useLogin();
   // Recipient
   const [recipient_name, setRecipient_name] = useState("");
   const [recipient_address, setRecipient_address] = useState("");
@@ -37,7 +36,7 @@ const Send = () => {
 
   const createParcel = () => {
     const user_id = profile.id,
-      parcel_status = "planning";
+      parcel_status = "sent";
     const payload = {
       user_id,
       drop_off_location,
@@ -53,7 +52,7 @@ const Send = () => {
       parcel_weight,
       parcel_status,
     };
-    fetch(`http://localhost:8000/api/parcel/create`, {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/parcel/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -150,20 +149,20 @@ const Send = () => {
       <br />
       <div className="side-by-side">
         <div>
-          <div className={"inputContainer"}>
+          <div >
             <input
               value={recipient_name}
-              placeholder="Enter your recipient name here"
+              placeholder="Enter recipient name"
               onChange={(ev) => setRecipient_name(ev.target.value)}
               className={"inputBox"}
             />
             <label className="errorLabel">{recipient_name_error}</label>
           </div>
           <br />
-          <div className={"inputContainer"}>
+          <div >
             <input
               value={recipient_address}
-              placeholder="Enter your recipient address here"
+              placeholder="Enter recipient address"
               onChange={(ev) => setRecipient_address(ev.target.value)}
               className={"inputBox"}
             />
@@ -174,7 +173,7 @@ const Send = () => {
             <input
               type="number"
               value={recipient_phonenumber}
-              placeholder="Enter your recipient phonenumber here"
+              placeholder="Enter recipient phonenumber"
               onChange={(ev) => setRecipient_phonenumber(ev.target.value)}
               className={"inputBox"}
             />
@@ -182,20 +181,20 @@ const Send = () => {
           </div>
         </div>
         <div>
-          <div className={"inputContainer"}>
+          <div >
             <input
               value={sender_name}
-              placeholder="Enter sender name here"
+              placeholder="Enter sender name"
               onChange={(ev) => setSender_name(ev.target.value)}
               className={"inputBox"}
             />
             <label className="errorLabel">{sender_name_error}</label>
           </div>
           <br />
-          <div className={"inputContainer"}>
+          <div >
             <input
               value={sender_address}
-              placeholder="Enter sender address here"
+              placeholder="Enter sender address"
               onChange={(ev) => setSender_address(ev.target.value)}
               className={"inputBox"}
             />
@@ -206,7 +205,7 @@ const Send = () => {
             <input
               type="number"
               value={sender_phonenumber}
-              placeholder="Enter sender phonenumber here"
+              placeholder="Enter sender phonenumber"
               onChange={(ev) => setSender_phonenumber(ev.target.value)}
               className={"inputBox"}
             />
@@ -216,35 +215,39 @@ const Send = () => {
         <br />
       </div>
       <br />
-      <div className="side-by-side">
+      <div className="margin1px">
         <input
           type="number"
           value={parcel_height}
-          placeholder="Enter parcel height here"
+          placeholder="Enter parcel height"
           onChange={(ev) => setParcel_height(ev.target.value)}
         />
         <label className="errorLabel">{parcel_height_error}</label>
+        <br />
         <input
           type="number"
           value={parcel_width}
-          placeholder="Enter parcel width here"
+          placeholder="Enter parcel width"
           onChange={(ev) => setParcel_width(ev.target.value)}
         />
         <label className="errorLabel">{parcel_width_error}</label>
+        <br />
         <input
           type="number"
           value={parcel_depth}
-          placeholder="Enter parcel depth here"
+          placeholder="Enter parcel depth"
           onChange={(ev) => setParcel_depth(ev.target.value)}
         />
         <label className="errorLabel">{parcel_depth_error}</label>
+        <br />
         <input
           type="number"
           value={parcel_weight}
-          placeholder="Enter parcel weight here"
+          placeholder="Enter parcel weight"
           onChange={(ev) => setParcel_weight(ev.target.value)}
         />
         <label className="errorLabel">{parcel_weight_error}</label>
+        <br />
       </div>
       <br />
       <div>

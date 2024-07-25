@@ -6,7 +6,8 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Layout from "./pages/Layout";
 import Send from "./pages/Send";
-import Parcel_locker_sim from "./pages/Parcel_locker";
+import Parcel_locker_sim from "./pages/Parcel_sim";
+import Pickup from "./pages/driverView";
 import { useLogin } from "./Context/LoginProvider";
 import Profile from "./pages/Profile";
 
@@ -39,7 +40,7 @@ const App = () => {
                   element={<Profile />}
                   key={"profile"}
                 />,
-                <Route path={"/pickup"} element={<Home />} key={"send"} />,
+                <Route path={"/pickup"} element={<Pickup />} key={"pickup"} />,
               ]
             : null}
           {isLoggedIn
@@ -51,6 +52,11 @@ const App = () => {
                   element={<Register />}
                   key={"register"}
                 />,
+                <Route
+                path={"/parcelsim"}
+                element={<Parcel_locker_sim />}
+                key={"Parcel_locker_sim"}
+              />,
               ]}
           <Route path={"*"} element={<Navigate replace to={"/"} />} />
         </Route>

@@ -10,6 +10,7 @@ const Register = () => {
   const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [message, setMessage] = useState("")
 
   const onButtonClick = () => {
     // Set initial error values to empty
@@ -58,7 +59,7 @@ const Register = () => {
 
   const register = () => {
     const payload = { username, email, password, roles };
-    fetch(`http://localhost:8000/api/users/register`, {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/users/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,8 +71,14 @@ const Register = () => {
 
         if (res.status !== 201) {
           console.log("error");
+          setMessage("Error")
         } else {
           console.log(jsonRes);
+          setEmail("")
+          setUsername("")
+          setPassword("")
+          setVerifyPassword("")
+          setMessage("Account Created")
         }
       } catch (err) {
         console.log(err);
@@ -107,6 +114,7 @@ const Register = () => {
       <div className={"inputContainer"}>
         <input
           value={password}
+          type="password"
           placeholder="Enter your password here"
           onChange={(ev) => setPassword(ev.target.value)}
           className={"inputBox"}
@@ -117,6 +125,7 @@ const Register = () => {
       <div className={"inputContainer"}>
         <input
           value={verifyPassword}
+          type="password"
           placeholder="Verify password"
           onChange={(ev) => setVerifyPassword(ev.target.value)}
           className={"inputBox"}
@@ -152,6 +161,7 @@ const Register = () => {
           value={"Register"}
         />
       </div>
+      <label className="errorLabel">{message}</label>
     </div>
   );
 };

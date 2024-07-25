@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./css/parcelSim.css";
 
 function Parcel_locker_sim() {
   const [drop_off_location, setLocation] = useState("Location_1");
@@ -6,10 +7,11 @@ function Parcel_locker_sim() {
   const [code, setCode] = useState("0");
   const [opendoormessage, setOpendoormessage] = useState("");
   const [opened, setOpened] = useState(false);
+  const [errormessage, setErrormessage] = useState("");
 
   async function pickparcel() {
     const payload = { drop_off_location, parcel_locker, code };
-    fetch(`http://localhost:8000/api/parcel/openparcelbox`, {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/parcel/openparcelbox`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,8 +27,10 @@ function Parcel_locker_sim() {
           setOpened(true);
         } else {
           console.log(jsonRes);
+          setErrormessage(jsonRes.message);
         }
       } catch (err) {
+        setErrormessage("Error");
         console.log(err);
       }
     });
@@ -34,7 +38,7 @@ function Parcel_locker_sim() {
 
   async function updatestatus() {
     const payload = { drop_off_location, parcel_locker, code };
-    fetch(`http://localhost:8000/api/parcel/updatestatus`, {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/parcel/updatestatus`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -51,19 +55,21 @@ function Parcel_locker_sim() {
           setLocation("");
           setLocker("");
           setCode("");
+          setErrormessage("");
         } else {
           console.log(jsonRes);
         }
       } catch (err) {
+        setErrormessage("Error");
         console.log(err);
       }
     });
   }
 
   return (
-    <div>
+    <div className={"mainContainer"}>
       {opened ? null : (
-        <div>
+        <div className={"second"}>
           {" "}
           <div>
             Choose drop off location:
@@ -76,8 +82,9 @@ function Parcel_locker_sim() {
             </select>
           </div>
           <div>Current location: {drop_off_location}</div>
+          <br />
           <div>
-            Choose locker:
+            Choose locker cabinet:
             <select onChange={(ev) => setLocker(ev.target.value)}>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -96,7 +103,7 @@ function Parcel_locker_sim() {
               <option value="15">15</option>
             </select>
           </div>
-          <div>Current locker: {parcel_locker}</div>
+          <div>Current locker cabinet: {parcel_locker}</div>
           <br />
           <div>
             <input
@@ -107,12 +114,14 @@ function Parcel_locker_sim() {
           </div>
           <div>Current code : {code}</div>
           <br />
+          {errormessage}
+          <br />
           <div className={"inputContainer"}>
             <input
               className={"inputButton"}
               type="button"
               onClick={pickparcel}
-              value={"Send"}
+              value={"Open Locker"}
             />
           </div>{" "}
         </div>

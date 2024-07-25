@@ -46,7 +46,7 @@ const Login = () => {
     var base64encodedData = Buffer.from(email + ":" + password).toString(
       "base64",
     );
-    fetch("http://localhost:8000/api/users/Login", {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/users/Login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ const Login = () => {
   return (
     <div className={"mainContainer"}>
       <div className={"titleContainer"}>
-        <div> {isLoggedIn ? "yeslogin" : "notlogin"}</div>
+        <div>Log in</div>
       </div>
       <br />
       <div className={"inputContainer"}>
@@ -90,6 +90,7 @@ const Login = () => {
       <div className={"inputContainer"}>
         <input
           value={password}
+          type="password"
           placeholder="Enter your password here"
           onChange={(ev) => setPassword(ev.target.value)}
           className={"inputBox"}

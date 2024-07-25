@@ -10,10 +10,7 @@ const Header = () => {
       <nav>
         <ul className={"navContainer"}>
           <li className={"navlist"}>
-            <Link to="/">Home</Link>
-          </li>
-          <li className={"navlist"}>
-            <Link to="/"> Role: {profile.roles} </Link>
+            <Link to="/">Home</Link> 
           </li>
           <li className={"navlist"}>
             {isLoggedIn && profile.roles === "user"
@@ -22,13 +19,11 @@ const Header = () => {
                     {" "}
                     <li className={"navlist"}>
                       {" "}
-                      <Link to="/profile">Hi! {profile.username}</Link>
+                      <Link to="/profile">Profile</Link>
                     </li>
-                    ,
                     <li className={"navlist"}>
                       <Link to="/send"> Send </Link>
                     </li>
-                    ,
                     <li className={"navlist"}>
                       <Link to="/parcelsim"> parcelboxsimulator </Link>
                     </li>
@@ -41,9 +36,8 @@ const Header = () => {
                     {" "}
                     <li className={"navlist"}>
                       {" "}
-                      <Link to="/profile">Hi! {profile.username}</Link>
+                      <Link to="/profile">Profile</Link>
                     </li>
-                    ,
                     <li className={"navlist"}>
                       <Link to="/pickup"> Pickup </Link>
                     </li>{" "}
@@ -55,9 +49,11 @@ const Header = () => {
               : [
                   <ul className={"navContainer"} key={"logout"}>
                     <li className={"navlist"}>
+                      <Link to="/parcelsim"> parcelboxsimulator </Link>
+                    </li>
+                    <li className={"navlist"}>
                       <Link to="/login">Login</Link>
                     </li>
-                    ,{" "}
                     <li className={"navlist"}>
                       <Link to="/register">Register</Link>
                     </li>
